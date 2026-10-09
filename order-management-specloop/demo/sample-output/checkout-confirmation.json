@@ -1,0 +1,8 @@
+{
+  "_example": true,
+  "_note": "Illustrative shape only. This is not a captured Shopizer response; field names and payload must be replaced with a sanitized response from the target deployment.",
+  "orderId": 10001,
+  "status": "ORDERED",
+  "total": "49.98",
+  "currency": "USD"
+}

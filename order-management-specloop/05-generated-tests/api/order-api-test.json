@@ -1,0 +1,42 @@
+{
+  "info": {
+    "name": "Shopizer Order Management API checks",
+    "description": "Request specifications; provide environment-specific baseUrl, auth tokens, merchant, and cart fixtures before execution.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "cartCode", "value": "REPLACE_WITH_CART_CODE" },
+    { "key": "orderId", "value": "REPLACE_WITH_ORDER_ID" }
+  ],
+  "item": [
+    {
+      "name": "Anonymous checkout",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/cart/{{cartCode}}/checkout",
+        "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } }
+      }
+    },
+    {
+      "name": "Authenticated customer orders (requires bearer token)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{customerToken}}" }],
+        "url": "{{baseUrl}}/api/v1/auth/orders?page=0&count=25"
+      }
+    },
+    {
+      "name": "Merchant staff order detail (requires staff token and store context)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{staffToken}}" },
+          { "key": "store", "value": "DEFAULT" }
+        ],
+        "url": "{{baseUrl}}/api/v1/private/orders/{{orderId}}"
+      }
+    }
+  ]
+}
