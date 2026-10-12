@@ -1,28 +1,141 @@
 # Shopizer Order Management SpecLoop
 
-Source-backed requirements, design, traceability, and test artifacts for the order flow in [Shopizer](https://github.com/shopizer-ecommerce/shopizer), release tag `3.2.7` (commit `6a4a0a65a3408ee8f62597b51d1b3aac24b77dee`). The repository's Maven POMs report version `3.2.5`; the source snapshot and tag are authoritative for this pack, and this version discrepancy is recorded rather than silently reconciled.
 
-## Scope
+This repository contains a complete Spec-Driven Development (SDD) package for the Order Management functionality within Shopizer. The artifacts have been created by analyzing the Shopizer source code at release tag 3.2.7 (commit 6a4a0a65a3408ee8f62597b51d1b3aac24b77dee).
 
-Order Management crosses three Shopizer Maven modules: `sm-core-model` owns the JPA order model, `sm-core` owns its service and repository, and `sm-shop` exposes the `/api/v1` order flow. This pack documents order checkout, listing, reads, customer/status changes, and order status history. It does not claim to implement a new standalone order service.
+During the analysis, we observed that some Maven POM files still reference version 3.2.5. Rather than modifying or reconciling this difference, the discrepancy has been documented and the tagged source snapshot has been treated as the authoritative reference.
 
-## Artifact map
+What Is Covered
 
-- `01-source/`: source snapshots from upstream modules. `OrderController.java` normalizes the upstream `OrderApi.java` class name for the requested tree; do not deploy it alongside `OrderApi` because it would duplicate route mappings.
-- `02-analysis/`: entity, API, business-rule, and dependency findings.
-- `03-spec-kit/`: constitution, clarifications, requirements/user stories/acceptance criteria, technical plan, design, and ordered tasks. Crosswalk: `requirements.md` = specify output, `plan.md` = plan output, and `tasks.md` = tasks output.
-- `04-generated-code/`: source-derived baseline snapshots, not deployable generated replacements.
-- `05-generated-tests/`: JUnit, Cucumber, and API test specifications; actual test status is recorded under validation.
-- `06-traceability/`: requirement-to-design-to-test mapping.
-- `07-validation/`: consistency analysis, build/test evidence, limitations, and convergence status.
-- `demo/`: sample order-flow output; no Shopizer server screenshots were captured.
+Order Management in Shopizer is spread across multiple modules:
 
-## Source provenance
+sm-core-model contains the Order domain and JPA entities.
+sm-core contains the business services and repositories used to manage orders.
+sm-shop exposes the REST APIs that support order-related operations.
 
-Upstream files are under `sm-core-model/src/main/java/com/salesmanager/core/model/order/Order.java`, `sm-core/src/main/java/com/salesmanager/core/business/services/order/OrderService.java`, `sm-core/src/main/java/com/salesmanager/core/business/repositories/order/OrderRepository.java`, and `sm-shop/src/main/java/com/salesmanager/shop/store/api/v1/order/OrderApi.java`. Status history is exposed by `OrderStatusHistoryApi`.
+This SpecLoop package covers:
 
-Shopizer is licensed under Apache License 2.0. The upstream license is included in `01-source/LICENSE.md`; preserve it and the upstream attribution when redistributing copied source.
+Order checkout flow
+Order retrieval and listing
+Customer updates
+Order status management
+Order status history tracking
 
-## Reading order
+The objective is to document and analyze the existing implementation, not to build a separate order service.
 
-This is a brownfield Spec-Driven Development pack: constitution/clarifications → requirements → technical plan/design → dependency-ordered tasks → existing implementation/test artifacts → analysis, verification, and convergence. Start with `03-spec-kit/constitution.md`. The Spec Kit stages are mapped into this requested folder structure rather than initialized as a standalone `specify` project. Mermaid diagrams are embedded in `03-spec-kit/design.md` and `tasks.md`.
+Repository Structure
+01-source
+
+Contains source-code snapshots extracted from the Shopizer project.
+
+As part of the documentation process, OrderApi.java has been represented as OrderController.java to align with the requested structure. This file is intended for documentation purposes only and should not be deployed alongside the original implementation because it would create duplicate endpoint mappings.
+
+02-analysis
+
+Contains detailed analysis of:
+
+Domain entities
+REST APIs
+Business rules
+Service and module dependencies
+03-spec-kit
+
+Contains the core Spec-Kit deliverables:
+
+Constitution
+Clarifications
+Requirements
+User stories
+Acceptance criteria
+Technical plan
+Solution design
+Task breakdown
+
+Key documents include:
+
+requirements.md → Functional and business requirements
+plan.md → Solution and implementation planning
+tasks.md → Dependency-ordered implementation tasks
+04-generated-code
+
+Contains source-derived baseline code artifacts generated from the analysis. These files serve as reference material and are not intended to replace the Shopizer implementation.
+
+05-generated-tests
+
+Contains proposed validation assets including:
+
+JUnit test scenarios
+Cucumber feature files
+API test specifications
+
+Execution results and validation status are documented separately.
+
+06-traceability
+
+Maps requirements to:
+
+Design decisions
+Source code components
+Test coverage
+
+This provides end-to-end traceability across the lifecycle.
+
+07-validation
+
+Contains verification and quality-assurance artifacts including:
+
+Consistency checks
+Build validation results
+Test execution evidence
+Known limitations
+Convergence findings
+demo
+
+Contains sample outputs demonstrating the documented order-management flow.
+
+No live Shopizer server screenshots were captured as part of this package.
+
+Source References
+
+The analysis is based on the following Shopizer components:
+
+Order.java
+OrderService.java
+OrderRepository.java
+OrderApi.java
+OrderStatusHistoryApi.java
+
+These components collectively represent the core order-processing workflow and status-history capabilities within Shopizer.
+
+Licensing
+
+Shopizer is distributed under the Apache License 2.0.
+
+A copy of the original license is included under:
+
+Plain Text
+01-source/LICENSE.md
+
+When redistributing any source-derived content, preserve both the license and the original project attribution.
+
+Recommended Reading Order
+
+This package follows a brownfield Spec-Driven Development approach, meaning it starts with understanding the existing system before defining requirements and implementation guidance.
+
+For the best experience, review the artifacts in this order:
+
+03-spec-kit/constitution.md
+Clarifications and assumptions
+Requirements and user stories
+Technical plan and design
+Task breakdown
+Existing implementation artifacts
+Test assets
+Validation and convergence reports
+
+Architecture and workflow diagrams are embedded within:
+
+03-spec-kit/design.md
+03-spec-kit/tasks.md
+
+These documents provide a visual view of the order-management architecture, processing flow, and implementation roadmap.
