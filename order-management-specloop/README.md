@@ -15,6 +15,7 @@ For an interactive storefront/admin demo, Shopizer has a [Docker Compose guide](
 We analyzed Shopizer tag `3.2.7`, commit `6a4a0a65a3408ee8f62597b51d1b3aac24b77dee`. Its Maven POMs say `3.2.5`, so both version numbers are recorded.
 
 On Temurin JDK 17.0.20.1, the focused order test passed (2 tests). The `sm-core` Maven reactor also passed: 30 tests, no failures or errors, and 13 skipped across 16 suites. Some upstream order tests are ignored. We did not run the API/Cucumber scenarios or a live storefront order, so the convergence status is **Partial**. See `07-validation/` for the full results and remaining checks.
+On Temurin JDK 17.0.20.1, the original `sm-core` checks passed: 30 tests, no failures or errors, and 13 skipped across 16 suites. The focused guest checkout feature now has canonical Spec Kit artifacts under [`specs/001-guest-checkout`](../specs/001-guest-checkout/spec.md) and a three-case API integration test that passes. The broader `sm-shop` reactor passed 66 tests with no failures/errors and 21 skipped across 21 suites. Some upstream order tests remain ignored. The API/Cucumber specs outside the new test were not run, nor was a live storefront demo; see the feature quickstart and convergence report for exact scope.
 
 Use Java 11 or 17 for this Shopizer release. Its Infinispan 9.4 dependency fails to start on JDK 25.
 
