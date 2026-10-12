@@ -1,33 +1,86 @@
-# Shopizer Order Management SpecLoop
+**Shopizer Order Management SpecLoop**
+When a customer places an order, that request travels through multiple layers of an e-commerce application. Understanding that journey can be difficult, especially in a large codebase with APIs, services, repositories, business rules, and tests spread across different modules.
 
-An online order touches several parts of a store's software. For this hackathon project, we followed one order through Shopizer and wrote down what the existing code does, how its parts connect, and what still needs testing.
+This project follows a guest checkout order through Shopizer and documents how the existing implementation works. The goal is not to build a new order service, but to create a clear link between requirements, design, source code, tests, and validation results.
 
-This is a guide to Shopizer's order feature, not a new store or replacement order service. We used Spec-Driven Development (SDD): first describe expected behavior, then map the design and tasks to the existing code, and finally record test evidence and gaps.
+**Why This Project**
+Documentation, code, and tests often evolve separately over time, making it harder to understand how a business requirement is actually implemented and verified.
 
-## Follow an Order
+Using Specification-Driven Development (SDD), this project starts with expected behavior, maps it to the existing design and code, and records the evidence needed to show whether the requirement has been validated. The result is a traceable view of the order flow from requirement to verification.
 
-For a short presentation, start with the shopper's checkout requirements in `03-spec-kit/requirements.md`. Follow the request through the diagrams in `03-spec-kit/design.md`, then point to the API, service, repository, and order model in `01-source/`. The matrix in `06-traceability/traceability-matrix.md` connects those requirements to tests. Finish with `07-validation/convergence-report.md` for what passed and what remains open.
+**Following an Order**
+A good starting point is 03-spec-kit/requirements.md, which describes the checkout requirements.
 
-For an interactive storefront/admin demo, Shopizer has a [Docker Compose guide](https://shopizer-ecommerce.github.io/documentation/docker.html). We did not run that external demo as part of this work, so check its image versions before presenting it as the same version analyzed here. The JSON in `demo/sample-output/` is an example shape, not a captured response; no live screenshots are included.
+**From there you can:**
 
-## What We Checked
+Review the flow and architecture in 03-spec-kit/design.md
+Explore the API, services, repositories, and domain models in 01-source/
+See how requirements map to tests in 06-traceability/traceability-matrix.md
+Review validation results in 07-validation/convergence-report.md
+Together, these artifacts show how a requirement is implemented, tested, and validated within the Shopizer order flow.
 
-We analyzed Shopizer tag `3.2.7`, commit `6a4a0a65a3408ee8f62597b51d1b3aac24b77dee`. Its Maven POMs say `3.2.5`, so both version numbers are recorded.
+**What Was Analyzed**
+This analysis is based on:
 
-On Temurin JDK 17.0.20.1, the focused order test passed (2 tests). The `sm-core` Maven reactor also passed: 30 tests, no failures or errors, and 13 skipped across 16 suites. Some upstream order tests are ignored. We did not run the API/Cucumber scenarios or a live storefront order, so the convergence status is **Partial**. See `07-validation/` for the full results and remaining checks.
-On Temurin JDK 17.0.20.1, the original `sm-core` checks passed: 30 tests, no failures or errors, and 13 skipped across 16 suites. The focused guest checkout feature now has canonical Spec Kit artifacts under [`specs/001-guest-checkout`](../specs/001-guest-checkout/spec.md) and a three-case API integration test that passes. The broader `sm-shop` reactor passed 66 tests with no failures/errors and 21 skipped across 21 suites. Some upstream order tests remain ignored. The API/Cucumber specs outside the new test were not run, nor was a live storefront demo; see the feature quickstart and convergence report for exact scope.
+Shopizer tag 3.2.7
+Commit 6a4a0a65a3408ee8f62597b51d1b3aac24b77dee
+The Maven POM files reference version 3.2.5, so both version identifiers have been documented.
 
-Use Java 11 or 17 for this Shopizer release. Its Infinispan 9.4 dependency fails to start on JDK 25.
+**Validation Summary**
+Testing was performed using Temurin JDK 17.0.20.1.
 
-## Where Things Live
+**Results included:**
 
-- `01-source/` has Shopizer source snapshots. The file `OrderController.java` is renamed from upstream `OrderApi.java` for this pack; don't deploy it alongside the original API because it would register duplicate routes.
-- `02-analysis/` explains the order model, API, business rules, and dependencies.
-- `03-spec-kit/` contains the project principles, requirements, design, plan, clarifications, and tasks.
-- `04-generated-code/` contains reference copies of existing code, not deployable generated replacements.
-- `05-generated-tests/` contains the JUnit test and proposed Cucumber/API checks.
-- `06-traceability/` maps requirements to design and tests.
-- `07-validation/` contains analysis, coverage, test results, and convergence status.
-- `demo/` contains presentation examples and screenshot guidance.
+Focused order tests: 2 passed
+sm-core reactor: 30 tests passed, 0 failures, 0 errors
+sm-shop reactor: 66 tests passed, 0 failures, 0 errors
+Several upstream tests remain skipped or ignored
+Guest checkout API integration tests passed
+The project does not include:
 
-Shopizer is licensed under Apache License 2.0. Its license is included in `01-source/LICENSE.md`; retain the license and upstream attribution when redistributing copied source.
+A live storefront checkout execution
+Full API/Cucumber test execution
+Production deployment validation
+Because of these limitations, the overall convergence status is currently Partial.
+
+**Runtime Notes**
+Use Java 11 or Java 17 with this Shopizer release.
+
+Java 25 is not supported because the Infinispan 9.4 dependency fails during startup.
+
+**Repository Structure**
+**01-source/**
+Snapshots of the Shopizer source code used for analysis.
+
+Note: OrderController.java is a renamed copy of the upstream OrderApi.java file for documentation purposes. It should not be deployed alongside the original Shopizer application because it would create duplicate API routes.
+
+**02-analysis/**
+Explanations of the order domain, business rules, architecture, and dependencies.
+
+**03-spec-kit/**
+Requirements, design documents, plans, tasks, and supporting specification artifacts.
+
+**04-generated-code/**
+Reference copies of existing Shopizer code used for traceability and analysis. These are not generated replacements and are not intended for deployment.
+
+**05-generated-tests/**
+JUnit tests, integration tests, and proposed validation scenarios.
+
+**06-traceability/**
+Mappings between requirements, design decisions, implementation, and tests.
+
+**07-validation/**
+Coverage analysis, test results, convergence reports, and known gaps.
+
+**demo/**
+Sample outputs, presentation assets, and guidance for demonstrations.
+
+**Project Scope**
+This repository is intended to help readers understand how Shopizer's order management functionality works and how specification artifacts can be connected to implementation and testing evidence.
+
+It is an analysis and traceability project, not a replacement implementation of the Shopizer order service.
+
+**License**
+Shopizer is licensed under the Apache License 2.0.
+
+A copy of the license is included in 01-source/LICENSE.md. If source files are redistributed, please retain the original license and upstream attribution.
