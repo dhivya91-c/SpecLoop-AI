@@ -11,8 +11,9 @@
 
 ### Remaining Convergence Work
 
-- Focused test: `mvn -pl sm-core -am -Dtest=com.salesmanager.test.order.specloop.OrderTest -Dsurefire.failIfNoSpecifiedTests=false test` — **BUILD SUCCESS**, 2/2 tests passed. Executed with the available JDK 25; Shopizer 3.2 documents Java 11/17, so a supported-JDK rerun remains advisable.
-- Broader core reactor: `mvn -pl sm-core -am test` — **BUILD FAILURE**, 28 tests, 1 error, 13 skipped. The error is unrelated catalog `ProductTest.testCreateProduct`, which failed with `UnexpectedRollbackException`; upstream `com.salesmanager.test.order.OrderTest` remained skipped by `@Ignore`.
+- Focused test: `mvn -pl sm-core -am -Dtest=com.salesmanager.test.order.specloop.OrderTest -Dsurefire.failIfNoSpecifiedTests=false test` — **BUILD SUCCESS** on Temurin JDK 17.0.20.1, 2/2 tests passed.
+- Broader core reactor: `mvn -pl sm-core -am test` — **BUILD SUCCESS** on Temurin JDK 17.0.20.1, 30 tests, 0 failures, 0 errors, 13 skipped across 16 suites. The formerly failing catalog `ProductTest` passes on this supported runtime; the original order test remains skipped by `@Ignore`.
+- JDK 25 is not compatible with this release's Infinispan 9.4 startup path (`Subject.getSubject` throws `UnsupportedOperationException`); use Java 11/17 as specified by Shopizer rather than patching application code for an unsupported JDK.
 - Authenticated/anonymous checkout API tests, authorization/isolation integration tests, pagination boundaries, status/history persistence, and payment-data serialization have not been executed.
 - Product/security decisions for status transitions, checkout idempotency, compensation, and PII/payment retention remain open (task T014).
 

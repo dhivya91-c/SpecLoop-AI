@@ -13,8 +13,9 @@
 | Check | Result |
 |---|---|
 | Source provenance / file mapping | Passed for inspected snapshots |
-| Focused order JUnit test | Passed: `mvn -pl sm-core -am -Dtest=com.salesmanager.test.order.specloop.OrderTest -Dsurefire.failIfNoSpecifiedTests=false test`; 2 tests, 0 failures/errors/skips. Executed with available JDK 25. |
-| Broad core Maven reactor | Failed: `mvn -pl sm-core -am test`; 28 tests, 1 error, 13 skipped. Unrelated `ProductTest.testCreateProduct` failed with `UnexpectedRollbackException`; the original order test was skipped. |
+| Focused order JUnit test | Passed on Temurin JDK 17.0.20.1: `mvn -pl sm-core -am -Dtest=com.salesmanager.test.order.specloop.OrderTest -Dsurefire.failIfNoSpecifiedTests=false test`; 2 tests, 0 failures/errors/skips. |
+| Broad core Maven reactor | Passed on Temurin JDK 17.0.20.1: `mvn -pl sm-core -am test`; 30 tests, 0 failures, 0 errors, 13 skipped across 16 suites. `ProductTest` passes; ignored upstream tests remain skipped. |
+| Unsupported-runtime diagnosis | The same `ProductTest` failed on installed JDK 25 because Infinispan 9.4 startup calls `Subject.getSubject`, which throws `UnsupportedOperationException` on that JDK. Running the project on its documented Java 17 target resolves the failure without source changes. |
 | Cucumber feature | Not executed; step definitions and Cucumber runtime are not included |
 | API JSON | Not executed; requires a running Shopizer instance, authentication, merchant context, and valid cart/order fixtures |
 | Shopizer source changes | None; this pack documents and verifies the pinned upstream baseline |
